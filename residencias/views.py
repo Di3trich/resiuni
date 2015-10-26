@@ -21,7 +21,10 @@ def show_main(request):
 
 
 def show_residencias(request):
-    residencias = Residencia.objects.order_by('latitude').order_by('longitude')
+    #residencias = Residencia.objects.order_by('latitude').order_by('longitude')
+
+    residencias = Residencia.objects.all()
+
     datas = []
     for residencia in residencias:
         data = {}
@@ -33,8 +36,18 @@ def show_residencias(request):
 
     return HttpResponse(json.dumps(datas), content_type="application/json")
 
+def show_residencias_in_nav(request):
 
+    residencias = Residencia.objects.order_by('latitude').order_by('longitude')
+    datas = []
+    for residencia in residencias:
+        data = {}
+        data['id_residencia'] = residencia.id
+        data['longitude_residencia'] = residencia.longitude
+        data['color_residencia'] =residencia.tipo_residencia.color
+        datas.append(data)
 
+    return HttpResponse(json.dumps(datas), content_type="application/json")
 
 
 
