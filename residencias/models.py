@@ -1,7 +1,8 @@
 from django.db import models
 
 class Tipo_residencia(models.Model):
-    color = models.IntegerField()
+    name = models.CharField(max_length = 20)
+    color = models.CharField(max_length = 10)
 
     def __unicode__(self):
         return self.color

@@ -7,24 +7,33 @@ import json
 
 def show_main(request):
     sede = Sede.objects.get(id = 1)
-    c = Context()
-    c['sede'] = sede
     institucion = Institucion.objects.get(id = int(sede.institucion.id))
-    c['institucion'] = institucion
 
     data = {}
+    data['id_sede'] = sede.id
     data['name_institucion'] = institucion.name
     data['short_name_institucion'] = institucion.short_name
     data['name_sede'] = sede.name
     data['latitude_sede'] = sede.latitude
     data['longitude_sede'] = sede.longitude
 
-    return HttpResponse()
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-def residencias(request):
+def show_residencias(request):
     residencias = Residencia.objects.order_by('latitude').order_by('longitude')
-    data = {}
+    datas = []
+    for residencia in residencias:
+        data = {}
+        data['id_residencia'] = residencia.id
+        data['latitude_residencia'] = residencia.latitude
+        data['longitude_residencia'] = residencia.longitude
+        data['color_residencia'] =residencia.tipo_residencia.color
+        datas.append(data)
+
+    return HttpResponse(json.dumps(datas), content_type="application/json")
+
+
 
 
 
