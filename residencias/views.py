@@ -19,6 +19,9 @@ def show_main(request):
 
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+def test(request):
+    return render(request, 'index.html')
+
 
 def show_residencias(request):
     residencias = Residencia.objects.order_by('latitude').order_by('longitude')
