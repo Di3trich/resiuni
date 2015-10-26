@@ -3,6 +3,8 @@ from django.template import Context
 from django.shortcuts import render
 from models import Sede, Institucion, Residencia
 
+import json
+
 def show_main(request):
     sede = Sede.objects.get(id = 1)
     c = Context()
@@ -24,6 +26,16 @@ def residencias(request):
     residencias = Residencia.objects.order_by('latitude').order_by('longitude')
     data = {}
 
+
+
+
+def another_main(request):
+    sede = Sede.objects.get(id = 1)
+    data={}
+    data['latitude']=sede.latitude
+    data['longitude']=sede.longitude
+    data['id']=sede.id
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 
