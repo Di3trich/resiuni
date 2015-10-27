@@ -1,9 +1,36 @@
 from django.http import HttpResponse
 from django.template import Context
 from django.shortcuts import render
-from models import Sede, Institucion, Residencia
+from models import Sede, Institucion, Residencia, Tipo_residencia
 
 import json
+
+def super_function(request):
+    residencias_filters = Residencia.objects.values()
+
+    if 'tipo_residencia' in request.GET:
+        #copeo los datos
+
+        #VERIFICAR QUE PRICE_FROM<=PRICE_UNTIL
+        if request.GET['price_from'] > request.GET['price_until']:
+            return HttpResponse("ERRRRRORRRRR")
+
+        input_data = {}
+        input_data['tipo_residencia'] = request.GET['tipo_residencia']
+        input_data['genero'] = request.GET['genero']
+        input_data['price_from'] = request.GET['price_from']
+        input_data['price_until'] = request.GET['price_until']
+
+        residencias = Residencia.objects.values().filter(Tipo_residencia.name = input_data['tipo_residencia']).filter(genero = input_data['genero'])
+        residencias_filters = []
+        for residencia in residencias:
+            if not (residencia['price_until']<input_data['price_from'] or input_data['price_until'] < residencia['price_from']):
+                residencias_filters.append(residencia)
+
+
+
+    return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
+
 
 def show_main(request):
     sede = Sede.objects.get(id = 1)

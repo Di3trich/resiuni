@@ -17,7 +17,7 @@ class Residencia(models.Model):
     email = models.EmailField(null = True)
     description = models.CharField(max_length = 300, null = False)
     date = models.DateField(auto_now = False, auto_now_add = True)
-    gender = models.CharField(max_length = 30, choices = ( ('Masculino', 'Masculino'), ('Femenino', 'Femenino'), ('Ambos', 'Ambos')) )
+    gender = models.CharField(max_length = 30, choices = ( ('Masculino', 'Masculino'), ('Femenino', 'Femenino'), ('Masculino y Femenino', 'Masculino y Femenino')) )
     price_from = models.PositiveIntegerField(null = False)
     price_until = models.PositiveIntegerField(null = False)
     tipo_residencia = models.ForeignKey(Tipo_residencia)
