@@ -5,7 +5,7 @@ class Tipo_residencia(models.Model):
     color = models.CharField(max_length = 30, choices = ( ('grey','grey') , ('green','green'), ('yellow','yellow')  ) )
 
     def __unicode__(self):
-        return str(self.color)
+        return str(self.name)
 
 class Residencia(models.Model):
     latitude = models.FloatField(null = False)

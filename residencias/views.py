@@ -7,29 +7,34 @@ import json
 
 def super_function(request):
     residencias_filters = Residencia.objects.values()
-
-    if 'tipo_residencia' in request.GET:
         #copeo los datos
 
+    if 'tipo_residencia' in request.GET:
         #VERIFICAR QUE PRICE_FROM<=PRICE_UNTIL
         if request.GET['price_from'] > request.GET['price_until']:
             return HttpResponse("ERRRRRORRRRR")
 
         input_data = {}
-        input_data['tipo_residencia'] = request.GET['tipo_residencia']
+        #input_data['tipo_residencia'] = ['Habitacion','Departamento','Casa']
+        input_data['tipo_residencia'] = request.GET.getlist('tipo_residencia')
+
         input_data['genero'] = request.GET['genero']
         input_data['price_from'] = request.GET['price_from']
         input_data['price_until'] = request.GET['price_until']
 
-        residencias = Residencia.objects.values().filter(Tipo_residencia.name = input_data['tipo_residencia']).filter(genero = input_data['genero'])
+        residencias = Residencia.objects.values().filter(tipo_residencia__name = input_data['tipo_residencia']).filter(gender = input_data['genero'] )
         residencias_filters = []
         for residencia in residencias:
             if not (residencia['price_until']<input_data['price_from'] or input_data['price_until'] < residencia['price_from']):
                 residencias_filters.append(residencia)
 
+        return render(request, 'form2.html', residencias_filters)
 
+    c = Context()
+    c['residencias_filters'] = residencias_filters
+    return render(request, 'form1.html', residencias_filters)
+    #return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
 
-    return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
 
 
 def show_main(request):
