@@ -1,41 +1,66 @@
 from django.http import HttpResponse
 from django.template import Context
 from django.shortcuts import render
+from django.db.models import Q
 from models import Sede, Institucion, Residencia, Tipo_residencia
 
 import json
 
-def super_function(request):
+def super_function_show(request):
     residencias_filters = Residencia.objects.values()
-        #copeo los datos
+    errors = []
 
-    if 'tipo_residencia' in request.GET:
-        #VERIFICAR QUE PRICE_FROM<=PRICE_UNTIL
-        if request.GET['price_from'] > request.GET['price_until']:
-            return HttpResponse("ERRRRRORRRRR")
-
-        input_data = {}
-        #input_data['tipo_residencia'] = ['Habitacion','Departamento','Casa']
-        input_data['tipo_residencia'] = request.GET.getlist('tipo_residencia')
-        input_data['genero'] = request.GET['genero']
-        input_data['price_from'] = request.GET['price_from']
-        input_data['price_until'] = request.GET['price_until']
-
-        residencias = Residencia.objects.values().filter(tipo_residencia__name = input_data['tipo_residencia']).filter(gender = input_data['genero'] )
-        residencias_filters = []
-        for residencia in residencias:
-            if not (residencia['price_until']<input_data['price_from'] or input_data['price_until'] < residencia['price_from']):
-                residencias_filters.append(residencia)
-
-        return render(request, 'form2.html', residencias_filters)
-
-
-    print residencias_filters
-    print len(residencias_filters)
     c = Context()
+    if len(request.GET) > 0:
+
+        if  request.GET['price_from'] > request.GET['price_until']:
+            (request.GET['price_from'] , request.GET['price_until']) = ( request.GET['price_until'] , request.GET['price_from']  )
+        if not ('tipo_residencia' in request.GET):
+            errors.append("Seleccione un tipo de residencia")
+
+        if not errors: # si no hay errores comienzo a realizar los filtros
+
+            tipo_residencias = request.GET.getlist('tipo_residencia')
+            query = Q()
+            for tipo_residencia in tipo_residencias:
+                query = query | Q(tipo_residencia__name = tipo_residencia)
+
+            residencias = Residencia.objects.values().filter(query)
+
+            if request.GET['genero'] == "Masculino y Femenino":
+                tipo_genero =  ["Masculino y Femenino", "Femenino", "Masculino"]
+                query = Q()
+                for genero in tipo_genero:
+                    query = query | Q(gender = genero)
+
+                residencias = residencias.filter(query)
+            else:
+                residencias = residencias.filter(gender = request.GET['genero'])
+
+            print len(residencias)
+
+            #print 'comparar = ' + '[' + str(request.GET['price_from']) + ' : ' + str(request.GET['price_until']) + ']'
+            residencias_filters = []
+            #------------------------------- FILTRO POR PRECIOS ------------------------------------------------------
+            for residencia in residencias:
+                if (residencia['price_until'] < int(request.GET['price_from'])) or (int(request.GET['price_until']) < residencia['price_from']):
+                    print '[' + str(residencia['price_from']) + ' : ' + str(residencia['price_until']) + ']'
+                else:
+                    residencias_filters.append(residencia)
+
+            #----------------------------------FALTA LA FUNCION FILTRO POR AREA-------------------------------------------
+            c['residencias_filters'] = residencias_filters
+            return render(request, 'form2.html', c)
+
     c['residencias_filters'] = residencias_filters
+    c['errors'] = errors
     return render(request, 'form1.html', c)
     #return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
+
+
+
+
+
 
 
 

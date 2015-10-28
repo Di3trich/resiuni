@@ -6,5 +6,5 @@ urlpatterns = patterns('',
     url(r'^$', show_main),
     url(r'^test/$', show_residencias),
     url(r'^test2/$', test),
-    url(r'^form/search/$', super_function),
+    url(r'^form/search/$', super_function_show),
 )

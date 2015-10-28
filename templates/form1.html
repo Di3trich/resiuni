@@ -1,27 +1,14 @@
 <html>
 <body>
-    {{ residencias_filters }}
-    <br>
-    {{ residencias_filters|length }}
-    <div>
-        {% for residencia in residencias_filters %}
-            <table>
-                <tr>
-                    <td>Titulo</td>
-                    <td>{{ residencia.title }}</td>
-                </tr>
-                <tr>
-                    <td>Latitud</td>
-                    <td>{{ residencia.latitude }}</td>
-                </tr>
-                <tr>
-                    <td>Longitud</td>
-                    <td>{{ residencia.longitude }}</td>
-                </tr>
-            </table>
-            </br>
+
+    {% if errors %}
+        <p>Usted tiene los siguientes errores:</p>
+        <ul>
+        {% for error in errors %}
+            <li style = "color:red;">{{ error }}</li>
         {% endfor %}
-    </div>
+        </ul>
+    {% endif %}
 
     <form action="" method="get">
         <p>
@@ -32,8 +19,8 @@
         </p>
         <p>
             <STRONG>Precio</STRONG>
-            <p>Desde: <input type="text" name="price_from"></p>
-            <p>Hasta: <input type="text" name="price_until"></p>
+            <p>Precio desde: <input type="text" name="price_from" ></p>
+            <p>Precio Hasta: <input type="text" name="price_until"></p>
 
         </p>
         <p>
