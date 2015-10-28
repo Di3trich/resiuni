@@ -17,7 +17,6 @@ def super_function(request):
         input_data = {}
         #input_data['tipo_residencia'] = ['Habitacion','Departamento','Casa']
         input_data['tipo_residencia'] = request.GET.getlist('tipo_residencia')
-
         input_data['genero'] = request.GET['genero']
         input_data['price_from'] = request.GET['price_from']
         input_data['price_until'] = request.GET['price_until']
@@ -30,9 +29,12 @@ def super_function(request):
 
         return render(request, 'form2.html', residencias_filters)
 
+
+    print residencias_filters
+    print len(residencias_filters)
     c = Context()
     c['residencias_filters'] = residencias_filters
-    return render(request, 'form1.html', residencias_filters)
+    return render(request, 'form1.html', c)
     #return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
 
 
