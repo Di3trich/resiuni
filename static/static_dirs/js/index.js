@@ -8,7 +8,7 @@ $(function(){
                 ciudad: 1
             },
             success: function(r){
-                alert(r.name_sede);
+                //alert(r.name_sede);
             }
         });
     });

@@ -3,11 +3,13 @@ from django.template import Context
 from django.shortcuts import render
 from django.db.models import Q
 from models import Sede, Institucion, Residencia, Tipo_residencia
+from django.core import serializers
 
 import json
 
 def super_function_show(request):
-    residencias_filters = Residencia.objects.values()
+    residencias_filters = Residencia.objects.all()
+    print residencias_filters
     errors = []
 
     c = Context()
@@ -51,16 +53,19 @@ def super_function_show(request):
             #----------------------------------FALTA LA FUNCION FILTRO POR AREA-------------------------------------------
             c['residencias_filters'] = residencias_filters
             return render(request, 'form2.html', c)
+            #return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
 
     c['residencias_filters'] = residencias_filters
+
+
+
     c['errors'] = errors
-    return render(request, 'form1.html', c)
-    #return HttpResponse(json.dumps(residencias_filters), content_type="application/json")
+    #return render(request, 'form1.html', c)
 
 
+    data = serializers.serialize('json', residencias_filters);
 
-
-
+    return HttpResponse(data, content_type="application/json")
 
 
 
@@ -120,6 +125,9 @@ def another_main(request):
     data['longitude']=sede.longitude
     data['id']=sede.id
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+def uri(request):
+    return render(request, 'uri.js')
 
 
 

@@ -1,20 +1,29 @@
 #side-nav, #map{
-    background:'red'
+    /*background:red*/
 }
 
 #side-nav{
-    position: 'absolute'
+    position: absolute;
+    left:0;
+    width:350px;
+    top:0;
+    bottom:0px;
 }
 
 #map{
-    position:'absolute'
+    position:absolute;
+    left:350px;
+    top:0;
+    bottom:0;
+    right:0;
+    /*background:green*/
 }
 
 #content{
-    position:'absolute';
+    position:absolute;
     left:0;
     right:0;
     bottom:0;
-    top:50px;
-    background:'blue';
+    top:45px;
+    /*background:blue;*/
 }
