@@ -128,7 +128,9 @@ def super_function_save(request):
         today = datetime.datetime.now()
 
         new_residencia.date = today.day
+        #new_residencia.latitude = request.GET['laitude']
         new_residencia.latitude = -15.82436997
+        #new_residencia.longitude = request.GET['longitude']
         new_residencia.longitude = -70.00993609
 
         new_residencia.save()
