@@ -66,7 +66,6 @@ def super_function_show(request):
 
     #return render(request, 'form1.html', c)
 
-
     data = serializers.serialize('json', residencias_filters)
 
     return HttpResponse(data, content_type="application/json")
@@ -116,7 +115,7 @@ def super_function_save(request):
             errors.append("Coloque un descripcion")
 
         if 'price_from' in request.GET and request.GET['price_from'] and 'price_until' in request.GET and request.GET['price_until'] and isnumber(request.GET['price_from']) and isnumber(request.GET['price_until']):
-            if request.GET['price_from'] < request.GET['price_until']:
+            if int(request.GET['price_from']) < int(request.GET['price_until']):
                 new_residencia.price_from = request.GET['price_from']
                 new_residencia.price_until = request.GET['price_until']
             else:
@@ -129,15 +128,39 @@ def super_function_save(request):
 
         new_residencia.date = today.day
         #new_residencia.latitude = request.GET['laitude']
-        new_residencia.latitude = -15.82436997
+        new_residencia.latitude = -15.83218238
         #new_residencia.longitude = request.GET['longitude']
-        new_residencia.longitude = -70.00993609
+        new_residencia.longitude = -70.02137303
 
         new_residencia.save()
 
         return HttpResponseRedirect('/thanks/')
 
     return render(request, 'save.html' , c)
+
+
+def all_institutions(request):
+    universities = Institucion.objects.all()
+    data = serializers.serialize('json', universities)
+    return HttpResponse(data, content_type="application/json")
+
+def sedes_by_insitutions(request):
+    if len(request.GET):
+        sedes = Sede.objects.all().filter(institucion__id = request.GET['id'])
+        data = serializers.serialize('json', sedes)
+        return HttpResponse(data, content_type="application/json")
+    else:
+        return HttpResponse("Ningun dato fue recibido")
+
+def sede_ubication(request):
+
+    if len(request.GET):
+        sede = Sede.objetcs.all().filter(id = request.GET['id'])
+        data = serializers.serialize('json', sede)
+        return HttpResponse(data, content_type = "application/json")
+    else:
+        HttpResponse("Ningun dato fue recibido")
+
 
 def thanks(request):
     return HttpResponse("Gracias por insertar una nueva residencia para alquilar.")
