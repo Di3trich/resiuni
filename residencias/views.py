@@ -157,7 +157,8 @@ def show_main(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def test(request):
-    return render(request, 'index.html')
+    instituciones = Institucion.objects.all()
+    return render(request, 'index.html', {'instituciones':instituciones})
 
 
 def show_residencias(request):
