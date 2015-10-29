@@ -7,5 +7,6 @@ urlpatterns = patterns('',
     url(r'^test/$', show_residencias),
     url(r'^test2/$', test),
     url(r'^form/search/$', super_function_show),
+    url(r'^form/save/$', super_function_save),
     url(r'^utils/uri.js', uri)
 )
