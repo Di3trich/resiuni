@@ -1,10 +1,15 @@
 $(function(){
     var mapProp = {
         center:new google.maps.LatLng(-15.8419612,-70.0176313),
-        zoom:15//,
+        zoom:16//,
         //scrollwheel:false
     };
     var map=new google.maps.Map($('#map')[0], mapProp);
+
+    var map_residencia= new google.maps.Map($('#map-residencia')[0], {
+        center: new google.maps.LatLng(-15.8419612,-70.0176313),
+        zoom: 8
+    });
 
     var size ={
         x: 30,
@@ -86,5 +91,13 @@ $(function(){
             marker.setMap(map);
         });
     }
+
+    $('.sede').click(function(e){
+        e.preventDefault();
+        var $this = $(this);
+        map.setCenter(new google.maps.LatLng($this.data('lat')*1, $this.data('lng')*1), 16);
+    });
+
+    //google.maps.event.trigger(map, 'resize');
 
 });

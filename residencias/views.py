@@ -191,9 +191,13 @@ def test(request):
     for sede in sedes:
         data[sede.institucion.id]['sedes'].append(sede)
 
-    print data
+    data_end = []
 
-    return render(request, 'index.html', {'data':data})
+    for row in data:
+        data_end.append(data[row])
+        print data[row]
+
+    return render(request, 'index.html', {'data':data_end})
 
 
 def show_residencias(request):

@@ -23,18 +23,33 @@
     </ul>
 
     <section class="top-bar-section">
-        <!-- Left Nav Section -->
+        <ul class="right">
+            <li class="divider"></li>
+            <li>
+                <a href="#" data-reveal-id="nueva_residencia">Nueva Residencia</a>
+            </li>
+
+        </ul>
         <ul>
+            <li class="divider"></li>
             <li class="has-dropdown">
                 <a href="#">Institucion</a>
                 <ul class="dropdown">
-                    {% for dt in data %}
+                    {% for row in data %}
                     <li class="has-dropdown">
-                        <a href="#">{{dt.institucion.name}}</a>
+                        <a href="#">{{row.institucion.name}}</a>
+                        <ul class="dropdown">
+                            {% for sede in row.sedes %}
+                            <li>
+                                <a href="#" data-lat="{{sede.latitude}}" data-lng="{{sede.longitude}}" class="sede">{{sede.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </li>
                     {% endfor %}
                 </ul>
             </li>
+            <li class="divider"></li>
         </ul>
     </section>
 </nav>
@@ -46,10 +61,150 @@
     <div id="map"></div>
 </div>
 
+<div id="nueva_residencia" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+     role="dialog">
+    <h2 id="modalTitle">Awesome. I have it.</h2>
+
+    <p class="lead">
+
+    <form>
+        <div class="row">
+            <div class="large-6 columns">
+                <div id="map-residencia" style="width:500px; height:500px; z-index:1000"></div>
+            </div>
+            <div class="large-6 columns">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Input Label
+                            <input type="text" placeholder="large-12.columns"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-4 columns">
+                        <label>Input Label
+                            <input type="text" placeholder="large-4.columns"/>
+                        </label>
+                    </div>
+                    <div class="large-4 columns">
+                        <label>Input Label
+                            <input type="text" placeholder="large-4.columns"/>
+                        </label>
+                    </div>
+                    <div class="large-4 columns">
+                        <div class="row collapse">
+                            <label>Input Label</label>
+
+                            <div class="small-9 columns">
+                                <input type="text" placeholder="small-9.columns"/>
+                            </div>
+                            <div class="small-3 columns">
+                                <span class="postfix">.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Select Box
+                            <select>
+                                <option value="husker">Husker</option>
+                                <option value="starbuck">Starbuck</option>
+                                <option value="hotdog">Hot Dog</option>
+                                <option value="apollo">Apollo</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Choose Your Favorite</label>
+                        <input type="radio" name="pokemon" value="Red" id="pokemonRed"><label
+                            for="pokemonRed">Red</label>
+                        <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label
+                            for="pokemonBlue">Blue</label>
+                    </div>
+                    <div class="large-6 columns">
+                        <label>Check these out</label>
+                        <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
+                        <input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Textarea Label
+                            <textarea placeholder="small-12.columns"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="" method="get">
+        <p>
+            <STRONG>Titulo:</STRONG> <input type="text" name="titulo">
+        </p>
+
+        <p>
+            <STRONG>Tipo de Residencia</STRONG>
+            <select name="tipo_residencia">
+                <option value="Habitacion">Habitacion</option>
+                <option value="Departamento">Departamento</option>
+                <option value="Casa">Casa</option>
+            </select>
+        </p>
+        <p>
+            <STRONG>Genero del inquilino</STRONG>
+            <select name="genero">
+                <option value="Masculino y Femenino">Masculino y femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+            </select>
+        </p>
+        <p>
+            <STRONG>Direccion </STRONG><input type="text" name="direccion">
+        </p>
+
+        <p>
+            <STRONG>Telefono #1</STRONG><input type="text" name="phone1">
+        </p>
+
+        <p>
+            <STRONG>Telefono #2 </STRONG><input type="text" name="phone2">
+        </p>
+
+        <p>
+            <STRONG>Correo Electronico </STRONG><input type="text" name="email">
+        </p>
+
+        <p>
+            Descripcion:<textarea name="descripcion" rows="10" cols="50"></textarea>
+        </p>
+
+        <p>
+            <STRONG>Precio</STRONG>
+
+        <p>Precio desde: <input type="text" name="price_from"></p>
+
+        <p>Precio Hasta: <input type="text" name="price_until"></p>
+        </p>
+
+        <input type="submit" value="submit">
+    </form>
+    </p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
 <script src="{% static 'js/foundation/foundation.js' %}"></script>
 <script src="{% static 'js/foundation/foundation.topbar.js' %}"></script>
+<script src="{% static 'js/foundation/foundation.reveal.js' %}"></script>
 <script>
 $(document).foundation();
+
+
+
+
 
 </script>
 </body>
