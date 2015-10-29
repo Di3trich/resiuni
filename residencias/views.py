@@ -180,8 +180,20 @@ def show_main(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def test(request):
-    instituciones = Institucion.objects.all()
-    return render(request, 'index.html', {'instituciones':instituciones})
+    instituciones = Institucion.objects.all().order_by('id')
+    sedes = Sede.objects.all().order_by('institucion__id')
+
+    data = {}
+
+    for institucion in instituciones:
+        data[institucion.id] = {'institucion':institucion, 'sedes':[]}
+
+    for sede in sedes:
+        data[sede.institucion.id]['sedes'].append(sede)
+
+    print data
+
+    return render(request, 'index.html', {'data':data})
 
 
 def show_residencias(request):
