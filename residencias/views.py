@@ -127,14 +127,14 @@ def super_function_save(request):
         today = datetime.datetime.now()
 
         new_residencia.date = today.day
-        #new_residencia.latitude = request.GET['laitude']
-        new_residencia.latitude = -15.83218238
-        #new_residencia.longitude = request.GET['longitude']
-        new_residencia.longitude = -70.02137303
+        new_residencia.latitude = request.GET['latitude']
+        #new_residencia.latitude = -15.83218238
+        new_residencia.longitude = request.GET['longitude']
+        #new_residencia.longitude = -70.02137303
 
         new_residencia.save()
 
-        return HttpResponseRedirect('/thanks/')
+        return HttpResponse(json.dumps({'estado':'registrado'}))
 
     return render(request, 'save.html' , c)
 
@@ -197,7 +197,9 @@ def test(request):
         data_end.append(data[row])
         print data[row]
 
-    return render(request, 'index.html', {'data':data_end})
+    tipo = Tipo_residencia.objects.all()
+
+    return render(request, 'index.html', {'data':data_end, 'tipo':tipo})
 
 
 def show_residencias(request):

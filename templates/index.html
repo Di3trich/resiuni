@@ -57,7 +57,19 @@
 
 <div id="content" class="row">
     <div id="side-nav">
-        <button id="click">click</button>
+        <div class="row">
+            <div class="large-12 columns panel">
+                <table role="grid">
+                    <thead>
+                    <th>Tipo</th>
+                    <th>Título</th>
+                    <th>Genero</th>
+                    </thead>
+                    <tbody id="lista-residencias">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div id="map"></div>
 </div>
@@ -68,134 +80,98 @@
 
     <p class="lead">
 
-    <form>
+    <form id="form-nueva-residencia">
         <div class="row">
             <div class="large-6 columns text-center panel">
                 <div class="row">
                     <div class="large-12 columns">
-                        <div id="map-residencia" style="height:300px"></div>
+                        <div id="map-residencia" style="height:600px"></div>
                     </div>
                 </div>
             </div>
             <div class="large-6 columns">
                 <div class="row">
                     <div class="large-12 columns">
-                        <label>Input Label
-                            <input type="text" placeholder="large-12.columns"/>
+                        <input type="hidden" name="latitude" id="latitud"/>
+                        <input type="hidden" name="longitude" id="longitud"/>
+                        <label>
+                            Titulo:
+                            <input type="text" name="titulo" required/>
                         </label>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="large-4 columns">
-                        <label>Input Label
-                            <input type="text" placeholder="large-4.columns"/>
+                    <div class="large-6 columns">
+                        <label>Tipo de Residencia:
+                            <select name="tipo_residencia">
+                                {% for row in tipo %}
+                                <option value="{{row.name}}">{{row.name}}</option>
+                                {% endfor %}
+                            </select>
                         </label>
                     </div>
-                    <div class="large-4 columns">
-                        <label>Input Label
-                            <input type="text" placeholder="large-4.columns"/>
-                        </label>
-                    </div>
-                    <div class="large-4 columns">
-                        <div class="row collapse">
-                            <label>Input Label</label>
-
-                            <div class="small-9 columns">
-                                <input type="text" placeholder="small-9.columns"/>
-                            </div>
-                            <div class="small-3 columns">
-                                <span class="postfix">.com</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="large-12 columns">
-                        <label>Select Box
-                            <select>
-                                <option value="husker">Husker</option>
-                                <option value="starbuck">Starbuck</option>
-                                <option value="hotdog">Hot Dog</option>
-                                <option value="apollo">Apollo</option>
+                    <div class="large-6 columns">
+                        <label>Genero:
+                            <select name="genero">
+                                <option value="Masculino y Femenino">Masculino y Femenino</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
                             </select>
                         </label>
                     </div>
                 </div>
                 <div class="row">
+                    <div class="large-12 columns">
+                        <label>Dirección:
+                            <input type="text" name="direccion" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="large-6 columns">
-                        <label>Choose Your Favorite</label>
-                        <input type="radio" name="pokemon" value="Red" id="pokemonRed"><label
-                            for="pokemonRed">Red</label>
-                        <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label
-                            for="pokemonBlue">Blue</label>
+                        <label>Teléfono 1:
+                            <input type="tel" name="phone1" required/>
+                        </label>
                     </div>
                     <div class="large-6 columns">
-                        <label>Check these out</label>
-                        <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
-                        <input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+                        <label>Teléfono 2:
+                            <input type="tel" name="phone2"/>
+                        </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="large-12 columns">
-                        <label>Textarea Label
-                            <textarea placeholder="small-12.columns"></textarea>
+                        <label>Correo Electrónico:
+                            <input type="email" name="email"/>
                         </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Descripción:
+                            <textarea name="descripcion" id="" cols="12" rows="10" required></textarea>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <label>Precios desde:
+                            <input type="number" name="price_from" required>
+                        </label>
+                    </div>
+                    <div class="large-6 columns">
+                        <label>Precios hasta:
+                            <input type="number" name="price_until" required>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <input type="submit" value="Registrar Residencia" class="button active"/>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-
-    <form action="" method="get">
-        <p>
-            <STRONG>Titulo:</STRONG> <input type="text" name="titulo">
-        </p>
-
-        <p>
-            <STRONG>Tipo de Residencia</STRONG>
-            <select name="tipo_residencia">
-                <option value="Habitacion">Habitacion</option>
-                <option value="Departamento">Departamento</option>
-                <option value="Casa">Casa</option>
-            </select>
-        </p>
-        <p>
-            <STRONG>Genero del inquilino</STRONG>
-            <select name="genero">
-                <option value="Masculino y Femenino">Masculino y femenino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-            </select>
-        </p>
-        <p>
-            <STRONG>Direccion </STRONG><input type="text" name="direccion">
-        </p>
-
-        <p>
-            <STRONG>Telefono #1</STRONG><input type="text" name="phone1">
-        </p>
-
-        <p>
-            <STRONG>Telefono #2 </STRONG><input type="text" name="phone2">
-        </p>
-
-        <p>
-            <STRONG>Correo Electronico </STRONG><input type="text" name="email">
-        </p>
-
-        <p>
-            Descripcion:<textarea name="descripcion" rows="10" cols="50"></textarea>
-        </p>
-
-        <p>
-            <STRONG>Precio</STRONG>
-
-        <p>Precio desde: <input type="text" name="price_from"></p>
-
-        <p>Precio Hasta: <input type="text" name="price_until"></p>
-        </p>
-
-        <input type="submit" value="submit">
     </form>
     </p>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -206,7 +182,6 @@
 <script src="{% static 'js/foundation/foundation.reveal.js' %}"></script>
 <script>
 $(document).foundation();
-
 
 </script>
 </body>
