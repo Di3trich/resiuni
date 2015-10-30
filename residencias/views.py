@@ -127,14 +127,14 @@ def super_function_save(request):
         today = datetime.datetime.now()
 
         new_residencia.date = today.day
-        #new_residencia.latitude = request.GET['laitude']
-        new_residencia.latitude = -15.83218238
-        #new_residencia.longitude = request.GET['longitude']
-        new_residencia.longitude = -70.02137303
+        new_residencia.latitude = request.GET['latitude']
+        #new_residencia.latitude = -15.83218238
+        new_residencia.longitude = request.GET['longitude']
+        #new_residencia.longitude = -70.02137303
 
         new_residencia.save()
 
-        return HttpResponseRedirect('/thanks/')
+        return HttpResponse(json.dumps({'estado':'registrado'}))
 
     return render(request, 'save.html' , c)
 
@@ -142,13 +142,6 @@ def super_function_save(request):
 def all_institutions(request):
     universities = Institucion.objects.all()
     data = serializers.serialize('json', universities)
-    return HttpResponse(data, content_type="application/json")
-
-def all_sedes(request):
-
-    sedes = Sede.objects.order_by("institucion__id")
-    data = serializers.serialize('json' , sedes)
-
     return HttpResponse(data, content_type="application/json")
 
 def sedes_by_insitutions(request):
@@ -190,7 +183,23 @@ def test(request):
     instituciones = Institucion.objects.all().order_by('id')
     sedes = Sede.objects.all().order_by('institucion__id')
 
-    return render(request, 'index.html', {'instituciones':instituciones , 'sedes':sedes})
+    data = {}
+
+    for institucion in instituciones:
+        data[institucion.id] = {'institucion':institucion, 'sedes':[]}
+
+    for sede in sedes:
+        data[sede.institucion.id]['sedes'].append(sede)
+
+    data_end = []
+
+    for row in data:
+        data_end.append(data[row])
+        print data[row]
+
+    tipo = Tipo_residencia.objects.all()
+
+    return render(request, 'index.html', {'data':data_end, 'tipo':tipo})
 
 
 def show_residencias(request):

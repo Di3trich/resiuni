@@ -27,3 +27,7 @@
     top:45px;
     /*background:blue;*/
 }
+
+.reveal-modal {
+    overflow-y: auto;
+}
