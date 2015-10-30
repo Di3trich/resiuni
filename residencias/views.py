@@ -144,6 +144,13 @@ def all_institutions(request):
     data = serializers.serialize('json', universities)
     return HttpResponse(data, content_type="application/json")
 
+def all_sedes(request):
+
+    sedes = Sede.objects.order_by("institucion__id")
+    data = serializers.serialize('json' , sedes)
+
+    return HttpResponse(data, content_type="application/json")
+
 def sedes_by_insitutions(request):
     if len(request.GET):
         sedes = Sede.objects.all().filter(institucion__id = request.GET['id'])
@@ -183,17 +190,7 @@ def test(request):
     instituciones = Institucion.objects.all().order_by('id')
     sedes = Sede.objects.all().order_by('institucion__id')
 
-    data = {}
-
-    for institucion in instituciones:
-        data[institucion.id] = {'institucion':institucion, 'sedes':[]}
-
-    for sede in sedes:
-        data[sede.institucion.id]['sedes'].append(sede)
-
-    print data
-
-    return render(request, 'index.html', {'data':data})
+    return render(request, 'index.html', {'instituciones':instituciones , 'sedes':sedes})
 
 
 def show_residencias(request):

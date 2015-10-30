@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^utils/uri.js', uri),
     url(r'^instituciones/$', all_institutions),
     url(r'^institucion/sedes/$', sedes_by_insitutions),
-    url(r'^institucion/sede/ubicacion$', sede_ubication),
+    url(r'^institucion/sede/ubicacion/$', sede_ubication),
+    url(r'^sedes/$', all_sedes),
 )

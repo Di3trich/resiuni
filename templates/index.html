@@ -28,11 +28,14 @@
             <li class="has-dropdown">
                 <a href="#">Institucion</a>
                 <ul class="dropdown">
-                    {% for dt in data %}
+                    {% with = 1 %}
+                    {% for institucion in instituciones %}
                     <li class="has-dropdown">
-                        <a href="#">{{dt.institucion.name}}</a>
+                        <a href="#">{{ institucion.name }}</a>
+
                     </li>
                     {% endfor %}
+                    {% endwith %}
                 </ul>
             </li>
         </ul>
