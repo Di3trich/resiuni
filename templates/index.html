@@ -2,6 +2,7 @@
 {% load staticfiles %}
 <html>
 <head>
+    <meta name="viewport" content="width=device-width">
     <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
     <script src="/residencias/utils/uri.js"></script>
@@ -26,7 +27,7 @@
         <ul class="right">
             <li class="divider"></li>
             <li>
-                <a href="#" data-reveal-id="nueva_residencia">Nueva Residencia</a>
+                <a href="#" id="modal-nueva-residencia">Nueva Residencia</a>
             </li>
 
         </ul>
@@ -61,16 +62,20 @@
     <div id="map"></div>
 </div>
 
-<div id="nueva_residencia" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+<div id="nueva-residencia" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
      role="dialog">
-    <h2 id="modalTitle">Awesome. I have it.</h2>
+    <h2 id="modalTitle">Nueva Residencia</h2>
 
     <p class="lead">
 
     <form>
         <div class="row">
-            <div class="large-6 columns">
-                <div id="map-residencia" style="width:500px; height:500px; z-index:1000"></div>
+            <div class="large-6 columns text-center panel">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div id="map-residencia" style="height:300px"></div>
+                    </div>
+                </div>
             </div>
             <div class="large-6 columns">
                 <div class="row">
@@ -201,9 +206,6 @@
 <script src="{% static 'js/foundation/foundation.reveal.js' %}"></script>
 <script>
 $(document).foundation();
-
-
-
 
 
 </script>

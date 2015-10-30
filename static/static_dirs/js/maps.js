@@ -1,14 +1,17 @@
 $(function(){
-    var mapProp = {
+    var map=new google.maps.Map($('#map')[0], {
         center:new google.maps.LatLng(-15.8419612,-70.0176313),
         zoom:16//,
         //scrollwheel:false
-    };
-    var map=new google.maps.Map($('#map')[0], mapProp);
+    });
 
     var map_residencia= new google.maps.Map($('#map-residencia')[0], {
         center: new google.maps.LatLng(-15.8419612,-70.0176313),
-        zoom: 8
+        zoom: 16
+    });
+
+    google.maps.event.addListener(map_residencia, "idle", function(){
+        google.maps.event.trigger(map_residencia, 'resize');
     });
 
     var size ={
@@ -47,6 +50,22 @@ $(function(){
         },
     };
 
+    var nueva_residencia_marker = new google.maps.Marker({
+        position: {
+            lat: -15.8419612,
+            lng: -70.0176313
+        },
+        title: 'Nueva Residencia',
+        icon: icons['1'],
+        draggable:true
+    });
+
+    nueva_residencia_marker.setMap(map_residencia);
+
+    google.maps.event.addListener(nueva_residencia_marker, 'dragend', function(e){
+        console.log(e.latLng.lat()+' '+e.latLng.lng());
+    });
+
     $('#click').click(function(){
         var marker = new google.maps.Marker({
             position: {
@@ -76,7 +95,7 @@ $(function(){
     var updateMarkers = function(json){
         $.each(json, function(){
             var $this = this;
-            console.log($this.fields);
+            //console.log($this.fields);
             var marker = new google.maps.Marker({
                 position: {
                     lat: $this.fields.latitude,
@@ -96,6 +115,15 @@ $(function(){
         e.preventDefault();
         var $this = $(this);
         map.setCenter(new google.maps.LatLng($this.data('lat')*1, $this.data('lng')*1), 16);
+    });
+
+    $('#modal-nueva-residencia').click(function(e){
+        e.preventDefault();
+        $('#nueva-residencia').foundation('reveal', 'open');
+        map_residencia.fitBounds(map_residencia.getBounds());
+        google.maps.event.trigger(map_residencia, 'resize');
+        map_residencia.setCenter(nueva_residencia_marker.getPosition());
+        map_residencia.setZoom(16);
     });
 
     //google.maps.event.trigger(map, 'resize');
