@@ -14,6 +14,31 @@ $(function(){
         google.maps.event.trigger(map_residencia, 'resize');
     });
 
+    var infowindow = new google.maps.InfoWindow({
+        content: '',
+        maxWidth: 350,
+        width:350
+    });
+
+    google.maps.event.addListener(infowindow, 'domready', function(){
+        var iwOuter = $('.gm-style-iw');
+        var iwBackground = iwOuter.prev();
+        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+        //iwOuter.parent().parent().css({left: '115px'});
+        //iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+        //iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+        var iwCloseBtn = iwOuter.next();
+        iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', 'padding':'6.5px'});
+        if($('.iw-content').height() < 140){
+          $('.iw-bottom-gradient').css({display: 'none'});
+        }
+        iwCloseBtn.mouseout(function(){
+          $(this).css({opacity: '1'});
+        });
+    });
+
     var size ={
         x: 30,
         y: 40
@@ -98,13 +123,37 @@ $(function(){
                 icon: icons[$this.fields.tipo_residencia+3]
             });
             marker.addListener('click', function() {
-                alert($this.pk);
+                var content = '<div id="iw-container">' +
+                    '<div class="iw-title">'+$this.fields.title+'</div>' +
+                    '<div class="iw-content">' +
+                      '<div class="iw-subTitle">Descripción</div>' +
+                      '<p>'+$this.fields.description+'</p>' +
+                      '<div class="iw-subTitle">Precios</div>'+
+                      '<p>Desde: '+$this.fields.price_from+'<br>'+
+                      'Hasta: '+$this.fields.price_until+'<br></p>'+
+                      '<div class="iw-subTitle">Contacto</div>';
+                content += '<p>';
+                content += 'Dirección: '+$this.fields.address+'<br>'
+                if($this.fields.phone2==null){
+                    content += 'Telefono: '+$this.fields.phone1+'<br>'
+                }else{
+                    content += 'Telefono 1: '+$this.fields.phone1+'<br>'
+                    content += 'Telefono 2: '+$this.fields.phone2+'<br>'
+                }
+                if($this.fields.email!=null)
+                    content += 'E-mail: '+$this.fields.email+'<br>';
+                content += '</p>';
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
             });
             marker.setMap(map);
             html += '<tr>';
-            html += '<td>'+$this.fields.tipo_residencia+'<td>';
-            html += '<td>'+$this.fields.title+'<td>';
-            html += '<td>'+$this.fields.gender+'<td>';
+            html += '<td>'+$this.fields.tipo_residencia+'</td>';
+            html += '<td>'+$this.fields.title+'</td>';
+            html += '<td>'+$this.fields.gender+'</td>';
             html += '</tr>';
         });
         $('#lista-residencias').html(html);

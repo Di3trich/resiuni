@@ -106,7 +106,7 @@ def super_function_save(request):
         if 'phone2' in request.GET and request.GET['phone2'] and isnumber(request.GET['phone2']):
             new_residencia.phone2 = request.GET['phone2']
 
-        if 'email' in request.GET and request.GET['email'] and isnumber(request.GET['email']):
+        if 'email' in request.GET and request.GET['email']:
             new_residencia.email = request.GET['email']
 
         if 'descripcion' in request.GET and request.GET['descripcion']:
