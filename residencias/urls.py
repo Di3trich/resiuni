@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     url(r'^instituciones/$', all_institutions),
     url(r'^institucion/sedes/$', sedes_by_insitutions),
     url(r'^institucion/sede/ubicacion/$', sede_ubication),
-    url(r'^sedes/$', all_sedes),
+    #url(r'^sedes/$', all_sedes),
 )

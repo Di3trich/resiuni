@@ -55,8 +55,122 @@
     </section>
 </nav>
 
+<div id="leyenda">
+    <div class="panel">
+        {% for row in tipo %}
+        <div class="row">
+            <div class="large-12 columns">
+                {% if row.id == 1 %}
+                <img src="{% static 'img/icons/green.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 2 %}
+                <img src="{% static 'img/icons/blue.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 3 %}
+                <img src="{% static 'img/icons/red.png' %}" width="24">
+                {% endif %}
+                {% if row.id == 4 %}
+                <img src="{% static 'img/icons/yellow.png' %}" width="24">
+                {% endif %}
+                {{row.name}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
 <div id="content" class="row">
     <div id="side-nav">
+        <div class="panel">
+            <form id="form-filtro" class="">
+                <div class="large-12 columns text-center large-text">
+                    Buscar por atributos <br><br>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <!--<button class="button small success" id="btn-filtro">Filtro Tipo de Residencia</button>-->
+                        <div id="filtro">
+                            <div class="row">
+                                {% for row in tipo %}
+                                <div class="large-4 columns">
+                                    <label>
+                                        {% if row.id == 1 %}
+                                        <img src="{% static 'img/icons/green.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 2 %}
+                                        <img src="{% static 'img/icons/blue.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 3 %}
+                                        <img src="{% static 'img/icons/red.png' %}" width="24">
+                                        {% endif %}
+                                        {% if row.id == 4 %}
+                                        <img src="{% static 'img/icons/yellow.png' %}" width="24">
+                                        {% endif %}
+                                        &nbsp;
+                                        <input type="checkbox" value="{{row.name}}" name="tipo_residencia" checked>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-2 columns">
+                        <label>Desde:</label>
+                    </div>
+                    <div class="large-3 columns">
+
+                        <select name="price_from">
+                            <option value="0" selected>0</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                            <option value="300">300</option>
+                            <option value="350">350</option>
+                        </select>
+
+                    </div>
+                    <div class="columns large-2">
+                        <label>Hasta:</label>
+                    </div>
+                    <div class="large-5 columns">
+
+                        <select name="price_until">
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                            <option value="300">300</option>
+                            <option value="350">350</option>
+                            <option value="1000000" selected>Sin Limite</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns large-3">
+                        <label>Genero:</label>
+                    </div>
+                    <div class="columns large-9">
+                        <select name="genero">
+                            <option value="Masculino y Femenino">Masculino y Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns text-center">
+                        <input type="submit" class="button expand tiny" value="Buscar"/>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="row">
             <div class="large-12 columns panel">
                 <table role="grid">
@@ -182,6 +296,23 @@
 <script src="{% static 'js/foundation/foundation.reveal.js' %}"></script>
 <script>
 $(document).foundation();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 </body>

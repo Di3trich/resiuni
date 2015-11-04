@@ -16,7 +16,7 @@ def super_function_show(request):
     c = Context()
     if len(request.GET) > 0:
 
-        if  request.GET['price_from'] > request.GET['price_until']:
+        if  int(request.GET['price_from']) > int(request.GET['price_until']):
             (request.GET['price_from'] , request.GET['price_until']) = ( request.GET['price_until'] , request.GET['price_from']  )
         if not ('tipo_residencia' in request.GET):
             errors.append("Seleccione un tipo de residencia")
@@ -56,7 +56,7 @@ def super_function_show(request):
 
             c['residencias_filters'] = residencias_filters
 
-            data = serializers.serialize('json', residencias)
+            data = serializers.serialize('json', residencias_filters)
 
             #return render(request, 'form2.html', c)
             return HttpResponse(data, content_type="application/json")

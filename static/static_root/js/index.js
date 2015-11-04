@@ -1,6 +1,6 @@
 $(function(){
 
-    $('#click').click(function(){
+    /*$('#click').click(function(){
         $.ajax({
             url: '../../residencias',
             dataType: 'json',
@@ -8,9 +8,11 @@ $(function(){
                 ciudad: 1
             },
             success: function(r){
-                //alert(r.name_sede);
+                alert(r.name_sede);
             }
         });
-    });
+    });*/
+
+
 
 });
