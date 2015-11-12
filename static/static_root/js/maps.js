@@ -60,14 +60,14 @@ $(function(){
             anchor: new google.maps.Point(size.x/2, size.y)
         },
         '3':{
-            url: $.uri('img/icons/yellow.png'),
+            url: $.uri('img/icons/red.png'),
             size: new google.maps.Size(size.x, size.y),
             scaledSize: new google.maps.Size(size.x, size.y),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(size.x/2, size.y)
         },
         '4':{
-            url: $.uri('img/icons/red.png'),
+            url: $.uri('img/icons/yellow.png'),
             size: new google.maps.Size(size.x, size.y),
             scaledSize: new google.maps.Size(size.x, size.y),
             origin: new google.maps.Point(0, 0),
@@ -99,6 +99,7 @@ $(function(){
     var updateMap = function(){
         $.ajax({
             url: $.uri('../residencias/form/search/'),
+            data:$('#form-filtro').serialize(),
             type:'get',
             dataType: 'json',
             success:function(json){
@@ -109,8 +110,13 @@ $(function(){
 
     updateMap();
 
+    var markers = [];
+
     var updateMarkers = function(json){
         var html = '';
+        for(var i=0; i<markers.length; i++)
+            markers[i].setMap(null);
+        markers=[];
         $.each(json, function(){
             var $this = this;
             //console.log($this.fields);
@@ -120,7 +126,7 @@ $(function(){
                     lng: $this.fields.longitude
                 },
                 title: $this.fields.description,
-                icon: icons[$this.fields.tipo_residencia+3]
+                icon: icons[$this.fields.tipo_residencia]
             });
             marker.addListener('click', function() {
                 var content = '<div id="iw-container">' +
@@ -150,6 +156,7 @@ $(function(){
                 infowindow.open(map, marker);
             });
             marker.setMap(map);
+            markers.push(marker);
             html += '<tr>';
             html += '<td>'+$this.fields.tipo_residencia+'</td>';
             html += '<td>'+$this.fields.title+'</td>';
@@ -191,6 +198,11 @@ $(function(){
                 $('#nueva-residencia').foundation('reveal', 'close');
             }
         });
+    });
+
+    $('#form-filtro').submit(function(e){
+        e.preventDefault();
+        updateMap();
     });
 
 });

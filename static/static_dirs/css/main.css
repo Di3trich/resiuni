@@ -95,7 +95,7 @@
 }
 
 #leyenda{
-    z-index:100001;
+    z-index:900;
     position:absolute;
     left:355px;
     bottom:-15px;

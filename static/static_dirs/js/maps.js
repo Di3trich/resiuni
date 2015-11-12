@@ -73,6 +73,15 @@ $(function(){
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(size.x/2, size.y)
         },
+        'Masculino':{
+            url: $.uri('img/icons/man.png'),
+        },
+        'Femenino':{
+            url: $.uri('img/icons/woman.png'),
+        },
+        'Masculino y Femenino':{
+            url: $.uri('img/icons/wym.png'),
+        }
     };
 
     var nueva_residencia_marker = new google.maps.Marker({
@@ -158,9 +167,9 @@ $(function(){
             marker.setMap(map);
             markers.push(marker);
             html += '<tr>';
-            html += '<td>'+$this.fields.tipo_residencia+'</td>';
+            html += '<td> <img width="24" src="'+icons[$this.fields.tipo_residencia].url+'"></td>';
             html += '<td>'+$this.fields.title+'</td>';
-            html += '<td>'+$this.fields.gender+'</td>';
+            html += '<td> <img width="24" src="'+icons[$this.fields.gender].url+'"></td>';
             html += '</tr>';
         });
         $('#lista-residencias').html(html);
